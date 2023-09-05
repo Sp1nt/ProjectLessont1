@@ -10,6 +10,8 @@ struct worker {
 	double salary;
 };
 
+//int* resizeArray(int*, int&, int);
+
 void inputWorker(worker&);
 void printWorker(const worker&);
 
@@ -17,15 +19,18 @@ void addWorker(worker*, int, int);
 
 void delWorker(worker* workers, int& quantity);
 
+int compareStrings(const char*, const char*);
+
+
+void searchByLastName(const worker* workers, int quantity, const char* searchLastName);
+
+void sortByLastName( worker*, int);
+
 void searchBySalaryRange(const worker* workers, int quantity, double minSalary, double maxSalary);
 
 
 void printEmployeeList(const worker* workers, int quantity);
 void searchWorker(const worker);
-//bool loadWorkerFromFile(const char* filename, worker* newWorker);
-//
-//
-//bool saveWorkerToFile(const char* filename, const worker* newWorker);
 
 
 

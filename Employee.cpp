@@ -46,21 +46,76 @@ void printWorker(const worker& newWorker) {
 }
 
 void addWorker(worker* oldWorker, int oldNumberWorker, int newNumberWorker) {
-	int numberWorker = oldNumberWorker + newNumberWorker;
-	worker* addWorker = new worker[numberWorker];
+	int numberWorkers = oldNumberWorker + newNumberWorker; 
+	worker* newAddWorker = new worker[numberWorkers];
+
+	cout << "numberEmployees: " << numberWorkers << endl; // 3
+	cout << "oldNumberEmployee: " << oldNumberWorker << endl; // 2
+	cout << "newNumberEmployee: " << newNumberWorker << endl; // 1
 
 	for (int i = 0; i < oldNumberWorker; i++) {
-		if (i != numberWorker) {
-			addWorker[i] = oldWorker[i];
+		newAddWorker[i] = oldWorker[i];
+	}
+
+	for (int i = oldNumberWorker; i < numberWorkers; i++) {
+		inputWorker(newAddWorker[i]);
+	}
+
+	for (int i = 0; i <= newNumberWorker; i++) {
+		printWorker(newAddWorker[i]);
+	}
+
+	cout << "Check100%" << endl;
+
+	delete newAddWorker;
+	newAddWorker = nullptr;
+}
+
+int compareStrings(char* a, char* b) {
+	while (*a == *b) {
+		++a;
+		++b;
+	}
+	return *a - *b;
+}
+
+void sortByLastName(worker* sortLastName, int size) {
+
+	cout << "Check 1" << endl;
+
+	for (int i = 1; i < size; i++) {
+		char* current = sortLastName[i].lastName;
+		int j = i - 1;
+
+		cout << "Check: " << sortLastName[i].lastName << endl;
+
+		while (j >= 0 && compareStrings(sortLastName[j].lastName, current) > 0) {
+			sortLastName[j + 1].lastName = sortLastName[j].lastName;
+			--j;
+		}
+
+		sortLastName[j + 1].lastName = current;
+	}
+
+	cout << "Last check!" << endl;
+}
+
+void searchByLastName(const worker* workers, int quantity, const char* searchLastName) {
+	bool found = false;
+
+	for (int i = 0; i < quantity; i++) {
+		if (strcmp(workers[i].lastName, searchLastName) == 0) {
+			printWorker(workers[i]);
+			cout << endl;
+			found = true;
 		}
 	}
 
-	for (int i = newNumberWorker; i < numberWorker; i++) {
-		inputWorker(addWorker[i]);
+	if (!found) {
+		cout << "Worker с фамилией " << searchLastName << " не найдены." << endl;
 	}
-
-	
 }
+
 
 void delWorker(worker* workers, int &quantity) {
 	if (quantity <= 0) {
@@ -68,36 +123,36 @@ void delWorker(worker* workers, int &quantity) {
 		return;
 	}
 
-	int index;
-	cout << "Enter the worker index to delete (0-" << quantity - 1 << "): ";
-	cin >> index;
+int index;
+cout << "Enter the worker index to delete (0-" << quantity - 1 << "): ";
+cin >> index;
 
-	if (index < 0 || index >= quantity) {
-		cout << "Invalid worker index." << endl;
-		return;
-	}
-	char answ;
-	cout << "Are you sure you want delete this worker?(y/n)";
-		cin >> answ;
+if (index < 0 || index >= quantity) {
+	cout << "Invalid worker index." << endl;
+	return;
+}
+char answ;
+cout << "Are you sure you want delete this worker?(y/n)";
+	cin >> answ;
 
-		if (answ == 'y') {
+	if (answ == 'y') {
 
 	
-	delete[] workers[index].firstName;
-	delete[] workers[index].lastName;
-	delete[] workers[index].number;
+delete[] workers[index].firstName;
+delete[] workers[index].lastName;
+delete[] workers[index].number;
 
-	for (int i = index; i < quantity - 1; i++) {
-		workers[i] = workers[i + 1];
-	}
+for (int i = index; i < quantity - 1; i++) {
+	workers[i] = workers[i + 1];
+}
 
-	quantity--;
-	cout << "Worker deleted." << endl;
-		}
-		else {
-			cout << "Deletion canceled" << endl;
-		}
+quantity--;
+cout << "Worker deleted." << endl;
 	}
+	else {
+		cout << "Deletion canceled" << endl;
+	}
+}
 
 void searchBySalaryRange(const worker* workers, int quantity, double minSalary, double maxSalary) {
 	bool found = false;
