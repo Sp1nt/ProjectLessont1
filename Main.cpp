@@ -37,6 +37,7 @@ int main() {
 	cout << "Enter the minimum and maximum wages to search for: ";
 	cin >> minSalary >> maxSalary;
 
+	cout << "Result  searched:" << endl;
 	searchBySalaryRange(newWorker, quantity, minSalary, maxSalary);
 
 	delete newWorker;

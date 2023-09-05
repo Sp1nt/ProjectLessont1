@@ -29,12 +29,12 @@ void inputWorker(worker& newWorker) {
 		cout << "Salary: ";
 		cin >> temp;
 
-		/*
-		if (temp <= "0")
-			cout << "×èñëî äîëæíî áûòü áîëüøå 0!" << endl << endl;
-			*/
-	} while (onlyDigits(temp));
-	newWorker.salary = stod(temp);
+		if (!onlyDigits(temp)) {
+			newWorker.salary = stod(temp);
+		}
+	} while (newWorker.salary <= 0);
+	
+	cout << endl;
 }
 
 
@@ -45,7 +45,24 @@ void printWorker(const worker& newWorker) {
 	cout << "salary: " << newWorker.salary << endl;
 }
 
-void delWorker(worker*& workers, int& quantity) {
+void addWorker(worker* oldWorker, int oldNumberWorker, int newNumberWorker) {
+	int numberWorker = oldNumberWorker + newNumberWorker;
+	worker* addWorker = new worker[numberWorker];
+
+	for (int i = 0; i < oldNumberWorker; i++) {
+		if (i != numberWorker) {
+			addWorker[i] = oldWorker[i];
+		}
+	}
+
+	for (int i = newNumberWorker; i < numberWorker; i++) {
+		inputWorker(addWorker[i]);
+	}
+
+	
+}
+
+void delWorker(worker* workers, int &quantity) {
 	if (quantity <= 0) {
 		cout << "There are no worker to remove." << endl;
 		return;
@@ -59,7 +76,13 @@ void delWorker(worker*& workers, int& quantity) {
 		cout << "Invalid worker index." << endl;
 		return;
 	}
+	char answ;
+	cout << "Are you sure you want delete this worker?(y/n)";
+		cin >> answ;
 
+		if (answ == 'y') {
+
+	
 	delete[] workers[index].firstName;
 	delete[] workers[index].lastName;
 	delete[] workers[index].number;
@@ -70,12 +93,16 @@ void delWorker(worker*& workers, int& quantity) {
 
 	quantity--;
 	cout << "Worker deleted." << endl;
-}
+		}
+		else {
+			cout << "Deletion canceled" << endl;
+		}
+	}
 
 void searchBySalaryRange(const worker* workers, int quantity, double minSalary, double maxSalary) {
 	bool found = false;
 
-	cout << "Result  searched:" << endl;
+	
 	for (int i = 0; i < quantity; i++) {
 		if (workers[i].salary >= minSalary && workers[i].salary <= maxSalary) {
 			printWorker(workers[i]);
